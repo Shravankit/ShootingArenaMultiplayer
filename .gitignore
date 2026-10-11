@@ -45,3 +45,48 @@ crashlytics-build.properties
 !Assets/
 !Packages/
 !ProjectSettings/
+
+
+
+# Dependencies
+node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Build output
+dist/
+build/
+coverage/
+.nyc_output/
+
+# Cache
+.npm/
+.eslintcache/
+
+# Runtime files
+pids/
+*.pid
+*.seed
+
+# Local configuration
+config.local.js
+config.local.json
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
