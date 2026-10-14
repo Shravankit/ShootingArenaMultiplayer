@@ -1,8 +1,8 @@
 "use strict";
 
-const CONFIG = require("../config");
-const { rooms } = require("../store");
-const { now, isPlainObject, cleanStr } = require("../utils");
+const CONFIG = require("../../config");
+const { rooms } = require("../../store");
+const { now, isPlainObject, cleanStr } = require("../../utils");
 
 module.exports = {
   ping(s, m) {

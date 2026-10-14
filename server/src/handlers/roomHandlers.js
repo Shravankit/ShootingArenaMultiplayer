@@ -1,10 +1,10 @@
 "use strict";
 
-const CONFIG = require("../config");
-const Room = require("../Room");
-const { rooms } = require("../store");
-const { joinRoom, removeFromRoom } = require("../roomOps");
-const { isPlainObject, cleanStr } = require("../utils");
+const CONFIG = require("../../config");
+const Room = require("../../Room");
+const { rooms } = require("../../store");
+const { joinRoom, removeFromRoom } = require("../../roomOps");
+const { isPlainObject, cleanStr } = require("../../utils");
 
 const roomHandlers = {
   list_rooms(s) {
