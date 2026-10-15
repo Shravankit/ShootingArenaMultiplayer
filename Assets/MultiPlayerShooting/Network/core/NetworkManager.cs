@@ -46,6 +46,8 @@ namespace MultiplayerShooting.Network.core
             Connect();
         }
 
+        public void SetPlayerName(string name) => playerName = name;
+
         public void Connect()
         {
             if (shuttingDown || IsConnected || socket != null)
@@ -253,6 +255,16 @@ namespace MultiplayerShooting.Network.core
         private void OnDestroy()
         {
             ShutDown();
+        }
+
+        public void Send(JObject message)
+        {
+            if (!IsConnected)
+            {
+                Debug.LogWarning("Cannot send: not connected.");
+                return;
+            }
+            _ = socket.SendText(message.ToString(Newtonsoft.Json.Formatting.None));
         }
     }
 }

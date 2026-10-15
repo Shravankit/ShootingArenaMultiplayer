@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <Style src="Lobby.uss" />
+    <ui:VisualElement class="lobby-root">
+        <ui:Label text="LOBBY" class="lobby-title" />
+        <ui:TextField name="name-field" label="Name" value="Player" />
+        <ui:Toggle name="ready-toggle" text="Ready" class="lobby-toggle" />
+        <ui:Label name="status-label" text="Enter your name and tick Ready" class="lobby-status" />
+        <ui:Label name="players-label" class="lobby-players" />
+    </ui:VisualElement>
+</ui:UXML>

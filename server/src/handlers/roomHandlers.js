@@ -1,10 +1,10 @@
 "use strict";
 
-const CONFIG = require("../../config");
-const Room = require("../../Room");
-const { rooms } = require("../../store");
-const { joinRoom, removeFromRoom } = require("../../roomOps");
-const { isPlainObject, cleanStr } = require("../../utils");
+const CONFIG = require("../config");
+const Room = require("../Room");
+const { rooms } = require("../Store");
+const { joinRoom, removeFromRoom } = require("../Roomops");
+const { isPlainObject, cleanStr } = require("../Utils");
 
 const roomHandlers = {
   list_rooms(s) {
@@ -72,6 +72,13 @@ const roomHandlers = {
         message: "Wrong password",
       });
     }
+
+    if (room.roomState.phase === "playing")
+      return s.send({
+        t: "error",
+        code: "IN_PROGRESS",
+        message: "Match already started",
+      });
     joinRoom(s, room);
   },
 
@@ -84,10 +91,17 @@ const roomHandlers = {
       });
 
     const open = [...rooms.values()].find(
-      (r) => !r.isPrivate && !r.password && r.members.size < r.maxPlayers,
+      (r) =>
+        !r.isPrivate &&
+        !r.password &&
+        r.roomState.phase !== "playing" &&
+        r.members.size < r.maxPlayers,
     );
     if (open) return joinRoom(s, open);
-    roomHandlers.create_room(s, { name: "Quick match", maxPlayers: 8 });
+    roomHandlers.create_room(s, {
+      name: "Quick match",
+      maxPlayers: CONFIG.matchSize,
+    });
   },
 
   leave_room(s) {

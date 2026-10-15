@@ -27,5 +27,10 @@ namespace MultiplayerShooting.Interfaces
             JObject data,
             string to = null
         );
+
+        void SetPlayerName(string name);
+        void On(string type, Action<JObject> handler);
+        void Off(string type, Action<JObject> handler);
+        void Send(JObject message);
     }
 }

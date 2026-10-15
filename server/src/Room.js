@@ -3,6 +3,7 @@
 const crypto = require("crypto");
 const { rooms } = require("./Store");
 const { now } = require("./Utils");
+const { config } = require("./config");
 
 function newRoomId() {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -84,6 +85,21 @@ class Room {
       roomVersion: this.version,
       snapshot: this.snapshot(true),
     };
+  }
+
+  tryAutoStart() {
+    if (this.roomState.phase === "playing") return;
+    if (this.members.size < CONFIG.matchSize) return;
+
+    const allReady = [...this.members.values()].every(
+      (p) => p.connected && p.state && p.state.ready === true,
+    );
+    if (!allReady) return;
+
+    const patch = { phase: "playing", scene: "Game" };
+    this.roomState = { ...this.roomState, ...patch };
+    this.version++;
+    this.broadcast({ t: "room_state", version: this.version, patch });
   }
 }
 

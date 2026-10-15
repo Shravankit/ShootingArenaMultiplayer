@@ -1,8 +1,8 @@
 "use strict";
 
-const CONFIG = require("../../config");
-const { rooms } = require("../../store");
-const { now, isPlainObject, cleanStr } = require("../../utils");
+const CONFIG = require("../config");
+const { rooms } = require("../Store");
+const { now, isPlainObject, cleanStr } = require("../Utils");
 
 module.exports = {
   ping(s, m) {
@@ -19,6 +19,7 @@ module.exports = {
     s.stateSeq = seq;
     s.state = m.data;
     room.dirty.add(s.id);
+    room.tryAutoStart();
   },
 
   // Reliable relay for one-off things: shoot, hit, pickup, chat...
