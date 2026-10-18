@@ -32,6 +32,7 @@ namespace MultiplayerShooting.Lobby
 
         private void Start()
         {
+            Debug.Log("[Lobby] Start ran");
             net = ServiceRegistry.Get<INetworkService>();
 
             map = new Dictionary<string, Action<JObject>>
@@ -65,6 +66,7 @@ namespace MultiplayerShooting.Lobby
 
         public void SetReady(bool ready, string playerName)
         {
+            Debug.Log($"[Lobby] SetReady {ready}, state={State}, connected={net.IsConnected}");
             wantReady = ready;
 
             switch (State)

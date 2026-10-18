@@ -3,7 +3,7 @@
 const crypto = require("crypto");
 const { rooms } = require("./Store");
 const { now } = require("./Utils");
-const { config } = require("./config");
+const CONFIG = require("./config");
 
 function newRoomId() {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";

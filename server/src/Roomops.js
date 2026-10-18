@@ -9,6 +9,12 @@ function joinRoom(s, room) {
   s.stateSeq = 0;
   s.send(room.joinedPayload(s, false));
   room.broadcast({ t: "player_joined", player: s.pub() }, s.id);
+
+  console.log(
+    `[room ${room.id}] ${s.name} (${s.id}) joined -> ` +
+      `${room.members.size}/${room.maxPlayers}: ` +
+      [...room.members.values()].map((p) => p.name).join(", "),
+  ); // for testing
 }
 
 function removeFromRoom(s, reason) {
@@ -18,6 +24,9 @@ function removeFromRoom(s, reason) {
   if (!room) return;
 
   room.members.delete(s.id);
+  console.log(
+    `[room ${room.id}] ${s.name} (${s.id}) left (${reason}) -> ${room.members.size} remaining`,
+  ); //for testing
   room.dirty.delete(s.id);
 
   if (room.members.size === 0) {

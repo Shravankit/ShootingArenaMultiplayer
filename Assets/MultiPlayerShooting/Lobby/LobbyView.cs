@@ -24,8 +24,16 @@ namespace MultiplayerShooting.Lobby
             statusLabel = root.Q<Label>("status-label");
             playersLabel = root.Q<Label>("players-label");
 
-            readyToggle.RegisterValueChangedCallback(
-                e => controller.SetReady(e.newValue, nameField.value));
+            Debug.Log($"[LobbyView] toggle={(readyToggle != null)} name={(nameField != null)} controller={(controller != null)}");
+
+            readyToggle.RegisterValueChangedCallback(e =>
+            {
+                Debug.Log($"[LobbyView] toggle changed -> {e.newValue}");
+                controller.SetReady(e.newValue, nameField.value);
+            });
+
+            // readyToggle.RegisterValueChangedCallback(
+            //     e => controller.SetReady(e.newValue, nameField.value));
 
             controller.Changed += Refresh;
             controller.ErrorRaised += ShowError;

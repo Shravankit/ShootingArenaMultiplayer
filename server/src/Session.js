@@ -15,7 +15,7 @@ class Session {
     this.graceTimer = null;
   }
 
-  Send(msg) {
+  send(msg) {
     if (this.connected) rawSend(this.ws, msg);
   }
 

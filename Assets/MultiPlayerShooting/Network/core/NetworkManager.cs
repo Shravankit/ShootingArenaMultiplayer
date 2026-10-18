@@ -59,7 +59,10 @@ namespace MultiplayerShooting.Network.core
             newSocket.OnOpen += () =>
             {
                 if (socket != newSocket)
+                {
+                    Debug.Log("[Network] socket open, sending hello");
                     return;
+                }
 
                 newSocket.SendText(
                     new JObject
@@ -97,7 +100,10 @@ namespace MultiplayerShooting.Network.core
             newSocket.OnClose += code =>
             {
                 if (socket != newSocket)
+                {
+                    Debug.Log($"[Network] closed: {code}");
                     return;
+                }
 
                 socket = null;
                 PlayerId = null;
@@ -117,6 +123,7 @@ namespace MultiplayerShooting.Network.core
 
         private void HandleMessage(JObject message)
         {
+            Debug.Log($"[Network] recv {(string)message["t"]}");
             string type = (string)message["t"];
 
             if (type == "welcome")

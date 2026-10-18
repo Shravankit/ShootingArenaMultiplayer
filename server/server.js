@@ -1,22 +1,5 @@
 "use strict";
 
-/**
- * Unity multiplayer server (ws) - entry point.
- *
- * Layout
- *   src/config.js              tunables (env overridable)
- *   src/utils.js               small helpers
- *   src/store.js               in-memory sessions + rooms
- *   src/Session.js             player session (survives socket drops)
- *   src/Room.js                room, snapshots, join payload
- *   src/roomOps.js             join / leave / destroy session
- *   src/handlers/              message handlers by area (rooms, sync) + dispatcher
- *   src/connection.js          hello/resume, close, rate limit, message routing
- *   src/loops.js               heartbeat + snapshot tick
- *
- * Protocol: JSON text frames, every message has a string field "t" (type).
- */
-
 const http = require("http");
 const { WebSocketServer } = require("ws");
 
@@ -37,6 +20,27 @@ const httpServer = http.createServer((req, res) => {
       }),
     );
   }
+
+  if (req.url === "/rooms") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    return res.end(
+      JSON.stringify(
+        [...rooms.values()].map((r) => ({
+          id: r.id,
+          phase: r.roomState.phase || "lobby",
+          players: [...r.members.values()].map((p) => ({
+            id: p.id,
+            name: p.name,
+            connected: p.connected,
+            ready: p.state?.ready === true,
+          })),
+        })),
+        null,
+        2,
+      ),
+    );
+  }
+
   res.writeHead(404);
   res.end();
 });

@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements">
-    <Style src="Lobby.uss" />
+    <ui:Style src="Lobby.uss" />
     <ui:VisualElement class="lobby-root">
         <ui:Label text="LOBBY" class="lobby-title" />
         <ui:TextField name="name-field" label="Name" value="Player" />
