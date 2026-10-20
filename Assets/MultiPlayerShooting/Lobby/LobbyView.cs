@@ -7,8 +7,8 @@ namespace MultiplayerShooting.Lobby
     [RequireComponent(typeof(UIDocument))]
     public class LobbyView : MonoBehaviour
     {
-        private const int MatchSize = 4; // keep in sync with server MATCH_SIZE
-        // private const int MatchSize = 1; // keep in sync with server MATCH_SIZE for testing
+        // private const int MatchSize = 4; // keep in sync with server MATCH_SIZE
+        private const int MatchSize = 1; // keep in sync with server MATCH_SIZE for testing
 
         [SerializeField] private LobbyController controller;
 
