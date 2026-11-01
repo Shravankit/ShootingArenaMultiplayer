@@ -16,6 +16,8 @@ namespace MultiplayerShooting.Gameplay
         INetworkService networkService;
         private float pitch, yVel, nextSend;
 
+        public bool InputLocked { get; set; }
+
         public void Init(INetworkService service) => networkService = service;
 
         void Awake()
@@ -26,16 +28,19 @@ namespace MultiplayerShooting.Gameplay
 
         void Update()
         {
-            // look
-            transform.Rotate(0f, Input.GetAxis("Mouse X") * lookSensitivity, 0f);
-            pitch = Mathf.Clamp(pitch - Input.GetAxis("Mouse Y") * lookSensitivity, -85f, 85f);
-            cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+            if (!InputLocked)
+            {
+                // look
+                transform.Rotate(0f, Input.GetAxis("Mouse X") * lookSensitivity, 0f);
+                pitch = Mathf.Clamp(pitch - Input.GetAxis("Mouse Y") * lookSensitivity, -85f, 85f);
+                cameraPivot.localRotation = Quaternion.Euler(pitch, 0f, 0f);
 
-            // move
-            Vector3 dir = transform.right * Input.GetAxisRaw("Horizontal")
-                        + transform.forward * Input.GetAxisRaw("Vertical");
-            yVel = cc.isGrounded ? -1f : yVel + Physics.gravity.y * Time.deltaTime;
-            cc.Move((dir.normalized * moveSpeed + Vector3.up * yVel) * Time.deltaTime);
+                // move
+                Vector3 dir = transform.right * Input.GetAxisRaw("Horizontal")
+                            + transform.forward * Input.GetAxisRaw("Vertical");
+                yVel = cc.isGrounded ? -1f : yVel + Physics.gravity.y * Time.deltaTime;
+                cc.Move((dir.normalized * moveSpeed + Vector3.up * yVel) * Time.deltaTime);
+            }
 
             //send Data
             if (networkService != null && networkService.IsConnected && Time.time >= nextSend)
@@ -57,6 +62,13 @@ namespace MultiplayerShooting.Gameplay
         }
                 );
             }
+        }
+
+        public void Teleport(Vector3 pos, Quaternion rot)
+        {
+            cc.enabled = false;
+            transform.SetPositionAndRotation(pos, rot);
+            cc.enabled = true;
         }
     }
 }

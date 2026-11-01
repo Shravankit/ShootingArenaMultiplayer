@@ -33,5 +33,11 @@ namespace MultiplayerShooting.Gameplay
             transform.rotation = Quaternion.Euler(0f,
                 Mathf.LerpAngle(transform.eulerAngles.y, targetYaw, t), 0f);
         }
+
+        public void SetAlive(bool alive)
+        {
+            foreach (var r in GetComponentsInChildren<Renderer>()) r.enabled = alive;
+            foreach (var c in GetComponentsInChildren<Collider>()) c.enabled = alive;
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace MultiplayerShooting.Network.core
 {
     public class NetworkManager : MonoBehaviour, INetworkService
     {
+        public static NetworkManager Instance;
         [SerializeField]
         private string serverUrl = "ws://localhost:8080";
 
